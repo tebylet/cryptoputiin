@@ -1,127 +1,191 @@
-// Год в футере
+/* =========================
+   $MYCOIN — app.js (UTF‑8)
+   ========================= */
+
+// 1) Устанавливаем текущий год в футере
 document.addEventListener('DOMContentLoaded', () => {
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 });
 
-// Копирование адреса контракта + визуальный фидбек на кнопке
-const copyBtn = document.getElementById('copyBtn');
-let copyResetTimer;
+// 2) Копирование адреса контракта в буфер обмена (с фолбэком)
+(() => {
+  const copyBtn = document.getElementById('copyBtn');
+  if (!copyBtn) return;
 
-copyBtn?.addEventListener('click', async () => {
-  const text = document.getElementById('contract')?.textContent?.trim() || '';
-  try {
-    await navigator.clipboard.writeText(text);
-    copyBtn.textContent = 'Скопировано!';
-    copyBtn.classList.add('copied');          // ✅ меняем цвет/стиль кнопки
-    clearTimeout(copyResetTimer);
-    copyResetTimer = setTimeout(() => {
-      copyBtn.textContent = 'Копировать';
-      copyBtn.classList.remove('copied');     // вернуть исходный вид
-    }, 1600);
-  } catch (e) {
-    alert('Не удалось скопировать: ' + e);
+  let resetTimer;
+  const setState = (label, copied) => {
+    copyBtn.textContent = label;
+    copyBtn.classList.toggle('copied', !!copied);
+  };
+
+  async function copyText(text) {
+    if (!text) throw new Error('Пустая строка');
+    // Пытаемся через современный API
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch (_) {
+      // Фолбэк через textarea
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'absolute';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      const ok = document.execCommand('copy');
+      document.body.removeChild(ta);
+      if (!ok) throw new Error('execCommand("copy") вернул false');
+      return true;
+    }
   }
-});
 
+  copyBtn.addEventListener('click', async () => {
+    const text = document.getElementById('contract')?.textContent?.trim() || '';
+    copyBtn.disabled = true;
+    try {
+      await copyText(text);
+      setState('Скопировано!', true);
+      clearTimeout(resetTimer);
+      resetTimer = setTimeout(() => {
+        setState('Копировать', false);
+      }, 1600);
+    } catch (e) {
+      alert('Не удалось скопировать: ' + e);
+    } finally {
+      copyBtn.disabled = false;
+    }
+  });
+})();
 
-// Тема (dark/light) с сохранением в localStorage
-const themeBtn = document.getElementById('themeBtn');
-const applyTheme = (t) => {
-  if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
-  else document.documentElement.removeAttribute('data-theme');
-};
-const stored = localStorage.getItem('theme');
-if (stored) applyTheme(stored);
-themeBtn?.addEventListener('click', () => {
-  const current = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
-  const next = current === 'light' ? 'dark' : 'light';
-  applyTheme(next);
-  localStorage.setItem('theme', next);
-});
+// 3) Переключение темы (dark / light) с сохранением в localStorage
+(() => {
+  const themeBtn = document.getElementById('themeBtn');
+  const applyTheme = (t) => {
+    if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
+    else document.documentElement.removeAttribute('data-theme');
+  };
+  const nextTheme = () => (document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
+  const themeLabel = (next) => (next === 'light' ? 'Светлая тема' : 'Тёмная тема');
 
-// Плавное, расплывчатое свечение, следующее за курсором
-(function(){
+  const stored = localStorage.getItem('theme');
+  if (stored) applyTheme(stored);
+  if (themeBtn) themeBtn.textContent = themeLabel(nextTheme());
+
+  themeBtn?.addEventListener('click', () => {
+    const next = nextTheme();
+    applyTheme(next);
+    localStorage.setItem('theme', next);
+    if (themeBtn) themeBtn.textContent = themeLabel(nextTheme());
+  });
+})();
+
+// 4) Плавная подсветка курсора (CSS-переменные + prefers-reduced-motion)
+(() => {
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   const doc = document.documentElement;
-  let x = window.innerWidth / 2, y = window.innerHeight / 2; // текущее положение света
-  let tx = x, ty = y;                                       // целевое (курсор)
-  const lerp = (a,b,t)=>a+(b-a)*t;
 
   const setVars = (cx, cy) => {
     doc.style.setProperty('--lx', cx + 'px');
     doc.style.setProperty('--ly', cy + 'px');
   };
-  setVars(x,y);
 
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-  function loop(){
-    x = lerp(x, tx, 0.05); // чем меньше, тем больше плавность/инерция
-    y = lerp(y, ty, 0.05);
-    setVars(x,y);
-    requestAnimationFrame(loop);
-  }
+  let x = window.innerWidth / 2;
+  let y = window.innerHeight / 2;
+  let tx = x, ty = y;
+  const lerp = (a, b, t) => a + (b - a) * t;
+
+  setVars(x, y);
 
   if (!prefersReduced.matches) {
+    function loop() {
+      x = lerp(x, tx, 0.08);
+      y = lerp(y, ty, 0.08);
+      setVars(x, y);
+      requestAnimationFrame(loop);
+    }
     loop();
-    window.addEventListener('mousemove', (e)=>{ tx = e.clientX; ty = e.clientY; }, { passive: true });
+
+    window.addEventListener('mousemove', (e) => {
+      tx = e.clientX;
+      ty = e.clientY;
+    }, { passive: true });
   } else {
-    // без анимации — уважение prefers-reduced-motion
-    window.addEventListener('mousemove', (e)=> setVars(e.clientX, e.clientY), { passive: true });
+    window.addEventListener('mousemove', (e) => setVars(e.clientX, e.clientY), { passive: true });
   }
 
-  window.addEventListener('resize', ()=>{
-    if(!prefersReduced.matches){
-      tx = Math.min(tx, window.innerWidth);
-      ty = Math.min(ty, window.innerHeight);
-    }
+  window.addEventListener('resize', () => {
+    tx = Math.min(tx, window.innerWidth);
+    ty = Math.min(ty, window.innerHeight);
   });
 })();
 
-// ===== Кнопка «вверх» =====
-const scrollBtn = document.getElementById('scrollTopBtn');
+// 5) Кнопка «наверх»
+(() => {
+  const scrollBtn = document.getElementById('scrollTopBtn');
+  if (!scrollBtn) return;
 
-if (scrollBtn) {
-  // показать кнопку при прокрутке вниз
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 300) {
-      scrollBtn.classList.add('visible');
-    } else {
-      scrollBtn.classList.remove('visible');
+  let ticking = false;
+  const onScroll = () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        const show = window.scrollY > 300;
+        scrollBtn.classList.toggle('visible', show);
+        ticking = false;
+      });
+      ticking = true;
     }
-  });
+  };
 
-  // плавный скролл наверх
+  window.addEventListener('scroll', onScroll, { passive: true });
+
   scrollBtn.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
-}
-// === Генерация звёздного неба ===
-document.addEventListener('DOMContentLoaded', () => {
+})();
+
+// 6) Фон «звёздное небо» (адаптация по motion и экрану)
+(() => {
   const container = document.getElementById('starry-bg');
   if (!container) return;
 
-  const STAR_COUNT = 120; // ← хочешь в 2 раза больше — увеличь число
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const smallScreen = window.matchMedia('(max-width: 600px)');
+
+  const baseCount = smallScreen.matches ? 60 : 120;
+  const STAR_COUNT = prefersReduced.matches ? Math.round(baseCount * 0.5) : Math.round(baseCount * 1.6);
+
   const frag = document.createDocumentFragment();
 
   for (let i = 0; i < STAR_COUNT; i++) {
     const star = document.createElement('div');
     star.className = 'star';
-    
-    const size = Math.random() * 3 + 1; // 1–4px
-    const x = Math.random() * 100; // %
-    const y = Math.random() * 100; // %
-    const delay = Math.random() * 6; // разброс анимации
-    const duration = 3 + Math.random() * 4; // разное мерцание
 
-    star.style.width = `${size}px`;
-    star.style.height = `${size}px`;
-    star.style.left = `${x}%`;
-    star.style.top = `${y}%`;
-    star.style.animationDuration = `${duration}s`;
-    star.style.animationDelay = `${delay}s`;
+    const size = Math.random() * 3 + 1;   // 1–4px
+    const x = Math.random() * 100;        // %
+    const y = Math.random() * 100;        // %
+
+    const delay = Math.random() * 6;
+    const duration = 3 + Math.random() * 4;
+
+    Object.assign(star.style, {
+      width: `${size}px`,
+      height: `${size}px`,
+      left: `${x}%`,
+      top: `${y}%`,
+      animationDuration: `${duration}s`,
+      animationDelay: `${delay}s`
+    });
+
+    if (prefersReduced.matches) {
+      star.style.animation = 'none';
+      star.style.opacity = '0.5';
+    }
 
     frag.appendChild(star);
   }
 
   container.appendChild(frag);
-});
+})();
+

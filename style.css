@@ -17,17 +17,17 @@
   --ly: 50vh;
 }
 
-/* Светлая тема */
+/* Светлая тема (контрастная серо-чёрная палитра) */
 [data-theme="light"] {
-  --bg: #f7f9fc;
-  --card: #ffffff;
-  --text: #0f172a;
-  --muted: #475569;
-  --primary: #0066ff;
-  --primary-600: #0050c4;
-  --accent: #7c3aed;
-  --border: rgba(0,0,0,.08);
-  --shadow: 0 10px 25px rgba(2,6,23,.08);
+  --bg: #e5e7eb;          /* светло-серый фон */
+  --card: #f2f3f5;        /* карточки чуть светлее фона */
+  --text: #111827;        /* почти чёрный текст */
+  --muted: #374151;       /* тёмно-серый вторичный */
+  --primary: #0a84ff;     /* синий акцент */
+  --primary-600: #0066cc;
+  --accent: #9333ea;      /* фиолетовый акцент */
+  --border: rgba(0,0,0,.15);
+  --shadow: 0 8px 22px rgba(0,0,0,.15);
 }
 
 * { box-sizing: border-box; }
@@ -56,18 +56,18 @@ body::before {
   transition: background 80ms linear;
 }
 
-/* В светлой теме подсветка затемняет */
+/* В светлой теме подсветка — затемняет */
 [data-theme="light"] body::before {
   background:
-    radial-gradient(260px 260px at var(--lx) var(--ly), rgba(3, 5, 114, 0.12), transparent 65%),
-    radial-gradient(820px 820px at var(--lx) var(--ly), rgba(27, 3, 134, 0.08), transparent 72%),
-    radial-gradient(1100px 1100px at var(--lx) var(--ly), rgba(6, 3, 139, 0.06), transparent 78%);
+    radial-gradient(260px 260px at var(--lx) var(--ly), rgba(0,0,0,.12), transparent 65%),
+    radial-gradient(820px 820px at var(--lx) var(--ly), rgba(0,0,0,.08), transparent 72%),
+    radial-gradient(1100px 1100px at var(--lx) var(--ly), rgba(0,0,0,.05), transparent 78%);
 }
 
 /* Контент поверх подсветки */
 header, main, footer { position: relative; z-index: 1; }
 
-/* === ЗВЁЗДНОЕ НЕБО === */
+/* === ЗВЁЗДНОЕ НЕБО (динамические звёзды из JS) === */
 #starry-bg {
   position: fixed;
   inset: 0;
@@ -99,9 +99,8 @@ header, main, footer { position: relative; z-index: 1; }
 /* === ССЫЛКИ === */
 a { color: var(--primary); text-decoration: none; }
 a:hover { text-decoration: underline; }
-a.btn,
-a.btn:hover,
-a.btn:focus { text-decoration: none; }
+/* ссылки-кнопки без подчёркивания */
+a.btn, a.btn:hover, a.btn:focus { text-decoration: none; }
 
 /* === LAYOUT === */
 .container { width: min(1100px, 92%); margin: 0 auto; }
@@ -109,9 +108,7 @@ section { padding: 64px 0; }
 .grid { display: grid; gap: 16px; }
 .grid-3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
 .grid-2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
-@media (max-width: 900px) {
-  .grid-3, .grid-2 { grid-template-columns: 1fr; }
-}
+@media (max-width: 900px) { .grid-3, .grid-2 { grid-template-columns: 1fr; } }
 
 /* === HEADER === */
 header {
@@ -133,17 +130,17 @@ header {
   background: linear-gradient(135deg, var(--primary), var(--accent));
   box-shadow: var(--shadow);
 }
-/* Навигационные ссылки — аккуратные "пилюли" */
+
+/* Навигационные ссылки — «пилюли» с hover */
 .nav a {
   position: relative;
   padding: 8px 12px;
   border-radius: 12px;
-  text-decoration: none;                 /* без подчёркивания */
+  text-decoration: none;
   transition: color .2s ease, background-color .2s ease,
               box-shadow .2s ease, transform .2s ease, opacity .2s ease;
-  opacity: .95;                          /* чуть приглушены в обычном состоянии */
+  opacity: .95;
 }
-
 .nav a:hover,
 .nav a:focus-visible {
   opacity: 1;
@@ -152,14 +149,22 @@ header {
   transform: translateY(-1px);
   outline: none;
 }
-
-/* Светлая тема — более мягкий фон и светлая тень */
+/* Светлая тема — мягче фон и тень */
 [data-theme="light"] .nav a:hover,
 [data-theme="light"] .nav a:focus-visible {
   background: color-mix(in oklab, var(--primary) 10%, white 90%);
   box-shadow: 0 2px 12px rgba(2,6,23,.08);
 }
-
+/* Активный пункт (опционально через aria-current="page") */
+.nav a[aria-current="page"] {
+  background: color-mix(in oklab, var(--primary) 22%, transparent);
+  box-shadow: 0 2px 10px rgba(0,0,0,.25);
+  opacity: 1;
+}
+[data-theme="light"] .nav a[aria-current="page"] {
+  background: color-mix(in oklab, var(--primary) 12%, white 88%);
+  box-shadow: 0 2px 12px rgba(2,6,23,.08);
+}
 
 /* === КНОПКИ === */
 .btn {
@@ -174,32 +179,36 @@ header {
   box-shadow: var(--shadow);
   transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
 }
-
 .btn.primary {
   background: linear-gradient(135deg, var(--primary), var(--accent));
   color: #0b1020;
   border-color: transparent;
 }
-
 .btn:hover {
   transform: translateY(-2px) scale(1.04);
   box-shadow: 0 6px 18px rgba(255,255,255,0.15), 0 0 12px rgba(109,211,255,0.25);
   filter: brightness(1.1);
 }
-
 .btn.primary:hover {
   box-shadow: 0 0 18px rgba(109,211,255,0.6), 0 0 30px rgba(181,123,255,0.4);
 }
-
 .btn:active {
   transform: translateY(-1px) scale(1.02);
   filter: brightness(1.02);
 }
-
 .btn:focus-visible {
   outline: 2px solid color-mix(in oklab, var(--primary) 65%, white);
   outline-offset: 2px;
   box-shadow: 0 0 0 6px color-mix(in oklab, var(--primary) 25%, transparent);
+}
+/* Светлая тема — мягче hover у кнопок */
+[data-theme="light"] .btn:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 6px 18px rgba(2,6,23,.16), 0 0 12px rgba(0,102,255,.18);
+  filter: brightness(1.04);
+}
+[data-theme="light"] .btn.primary:hover {
+  box-shadow: 0 0 18px rgba(0,102,255,.45), 0 0 30px rgba(124,58,237,.25);
 }
 
 /* Состояние «скопировано» */
@@ -307,49 +316,4 @@ summary::-webkit-details-marker { display: none; }
   opacity: 1;
   pointer-events: all;
   transform: translateY(0);
-}
-
-/* ==== Кнопки: тёмная тема (у тебя уже есть базовый .btn:hover) ==== */
-/* оставляем твой текущий .btn:hover и .btn.primary:hover */
-
-/* ==== Кнопки: светлая тема — мягче и без лишней яркости ==== */
-[data-theme="light"] .btn:hover {
-  transform: translateY(-2px) scale(1.03);
-  box-shadow: 0 6px 18px rgba(2,6,23,.16), 0 0 12px rgba(0,102,255,.18);
-  filter: brightness(1.04);
-}
-
-[data-theme="light"] .btn.primary:hover {
-  /* неоновое, но сдержанное свечение под светлую тему */
-  box-shadow: 0 0 18px rgba(0,102,255,.45), 0 0 30px rgba(124,58,237,.25);
-}
-
-/* Фокус для доступности — чуть контрастнее в светлой теме */
-/* Светлая тема (контрастная, с тёмно-серой палитрой) */
-[data-theme="light"] {
-  --bg: #e5e7eb;          /* светло-серая подложка */
-  --card: #f2f3f5;        /* карточки чуть светлее фона */
-  --text: #111827;        /* почти чёрный текст */
-  --muted: #374151;       /* тёмно-серый вторичный */
-  --primary: #0a84ff;     /* акцент — насыщенный синий (вместо кислотного) */
-  --primary-600: #0066cc;
-  --accent: #9333ea;      /* фиолетовый акцент */
-  --border: rgba(0,0,0,.15);
-  --shadow: 0 8px 22px rgba(0,0,0,.15);
-}
-[data-theme="light"] body::before {
-  background:
-    radial-gradient(260px 260px at var(--lx) var(--ly), rgba(0,0,0,.12), transparent 65%),
-    radial-gradient(820px 820px at var(--lx) var(--ly), rgba(0,0,0,.08), transparent 72%),
-    radial-gradient(1100px 1100px at var(--lx) var(--ly), rgba(0,0,0,.05), transparent 78%);
-}
-
-.nav a[aria-current="page"] {
-  background: color-mix(in oklab, var(--primary) 22%, transparent);
-  box-shadow: 0 2px 10px rgba(0,0,0,.25);
-  opacity: 1;
-}
-[data-theme="light"] .nav a[aria-current="page"] {
-  background: color-mix(in oklab, var(--primary) 12%, white 88%);
-  box-shadow: 0 2px 12px rgba(2,6,23,.08);
 }

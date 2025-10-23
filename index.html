@@ -3,21 +3,20 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>$MYCOIN — официальный сайт криптовалюты</title>
-  <meta name="description" content="$MYCOIN — новая криптовалюта сообщества. Токеномика, дорожная карта, как купить и где следить за новостями." />
+  <title>$MYCOIN — официальный сайт токена</title>
+  <meta name="description" content="$MYCOIN — сообщество и токен. Присоединяйтесь, чтобы следить за новостями, токеномикой и дорожной картой." />
 
   <!-- Open Graph -->
   <meta property="og:title" content="$MYCOIN — официальный сайт" />
-  <meta property="og:description" content="Токеномика, дорожная карта и инструкции по покупке $MYCOIN." />
+  <meta property="og:description" content="Новости, токеномика и дорожная карта токена $MYCOIN." />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="/og-image.png" />
   <meta property="og:url" content="https://example.com" />
 
-  <!-- Стили -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<div id="starry-bg"></div>
+  <div id="starry-bg" aria-hidden="true"></div>
   <header>
     <div class="container nav">
       <div class="brand">
@@ -28,14 +27,14 @@
         </div>
         <span>$MYCOIN</span>
       </div>
-      <nav aria-label="Главная навигация">
+      <nav aria-label="Основная навигация">
         <a href="#about">О проекте</a>
         <a href="#tokenomics">Токеномика</a>
         <a href="#roadmap">Дорожная карта</a>
         <a href="#howto">Как купить</a>
         <a href="#team">Команда</a>
         <a href="#faq">FAQ</a>
-        <button class="btn" id="themeBtn" aria-label="Переключить тему" style="margin-left:12px">Тема</button>
+        <button class="btn" id="themeBtn" aria-label="Переключить тему" style="margin-left:12px">Светлая тема</button>
       </nav>
     </div>
   </header>
@@ -46,11 +45,11 @@
       <div class="container grid" style="gap:22px">
         <div class="grid-2">
           <div class="card" style="padding:28px">
-            <h1 class="h1">$MYCOIN — криптовалюта сообщества</h1>
-            <p class="lead">Быстрая, безопасная и справедливая. Подходит для микроплатежей, гейминга и Web3-сервисов. Присоединяйтесь к экосистеме сегодня.</p>
+            <h1 class="h1">$MYCOIN — токен сообщества</h1>
+            <p class="lead">Простой старт, понятная токеномика и активная комьюнити‑поддержка. Следите за новостями и присоединяйтесь к развитию экосистемы Web3.</p>
             <div class="cta">
               <a class="btn primary" href="#howto">Купить $MYCOIN</a>
-              <a class="btn" href="#tokenomics">Изучить токеномику</a>
+              <a class="btn" href="#tokenomics">Узнать токеномику</a>
             </div>
           </div>
           <div class="card">
@@ -58,14 +57,14 @@
             <div class="grid" style="gap:12px">
               <div class="contract">
                 <span class="muted">Сеть:</span>
-                <span class="chip">Ethereum (ERC-20)</span>
+                <span class="chip">Ethereum (ERC‑20)</span>
               </div>
               <div class="contract">
                 <span class="muted">Адрес контракта:</span>
                 <code id="contract" class="mono">0x0000000000000000000000000000000000000000</code>
-                <button class="btn" id="copyBtn">Копировать</button>
+                <button class="btn" id="copyBtn" aria-label="Копировать адрес контракта">Копировать</button>
               </div>
-              <div class="muted">Замените адрес и сеть на ваши реальные данные.</div>
+              <div class="muted">Внимание: адрес указан для примера. Используйте официальный источник.</div>
             </div>
           </div>
         </div>
@@ -77,68 +76,36 @@
       <div class="container grid grid-2">
         <div class="card">
           <h2 style="margin-top:0">Что такое $MYCOIN?</h2>
-          <p>$MYCOIN — это токен, созданный для поощрения активности сообщества и интеграции в повседневные сервисы. Мы делаем упор на простоту UX, партнёрства и прозрачность развития.</p>
-          <ul>
-            <li>Комиссии — минимальные</li>
-            <li>Открытый исходный код и аудит (план)</li>
-            <li>Программа грантов для разработчиков</li>
-          </ul>
+          <p>$MYCOIN — это сообщество и токен. Мы строим простую и понятную экосистему вокруг участия, прозрачности и пользы для держателей.</p>
         </div>
         <div class="card">
-          <h3 style="margin-top:0">Быстрые факты</h3>
-          <div class="grid grid-3">
-            <div>
-              <div class="muted">Макс. предложение</div>
-              <div class="kpi">1 000 000 000</div>
-            </div>
-            <div>
-              <div class="muted">Комиссия на покупку/продажу</div>
-              <div class="kpi">0%</div>
-            </div>
-            <div>
-              <div class="muted">Биржи</div>
-              <div class="kpi">DEX / CEX</div>
-            </div>
-          </div>
-          <p class="muted" style="margin-top:12px">Замените значения на реальные.</p>
+          <h2 style="margin-top:0">Преимущества</h2>
+          <ul>
+            <li>Прозрачная эмиссия и распределение</li>
+            <li>Фокус на комьюнити и открытость</li>
+            <li>Дорожная карта с чёткими этапами</li>
+          </ul>
         </div>
       </div>
     </section>
 
     <!-- Tokenomics -->
     <section id="tokenomics">
-      <div class="container">
-        <h2 style="margin:0 0 18px">Токеномика</h2>
-        <div class="grid grid-3">
-          <div class="card">
-            <strong>Ликвидность</strong>
-            <div class="bar" aria-label="Процент ликвидности"><i style="width:35%"></i></div>
-            <div class="muted">35%</div>
-          </div>
-          <div class="card">
-            <strong>Фонд экосистемы</strong>
-            <div class="bar"><i style="width:30%"></i></div>
-            <div class="muted">30%</div>
-          </div>
-          <div class="card">
-            <strong>Аирдроп/Сообщество</strong>
-            <div class="bar"><i style="width:20%"></i></div>
-            <div class="muted">20%</div>
-          </div>
-          <div class="card">
-            <strong>Команда (вестинг)</strong>
-            <div class="bar"><i style="width:10%"></i></div>
-            <div class="muted">10%</div>
-          </div>
-          <div class="card">
-            <strong>Резерв</strong>
-            <div class="bar"><i style="width:5%"></i></div>
-            <div class="muted">5%</div>
-          </div>
-          <div class="card">
-            <strong>Налоги</strong>
-            <p class="muted">Покупка: 0% • Продажа: 0% (настройте по факту).</p>
-          </div>
+      <div class="container grid grid-3">
+        <div class="card">
+          <strong>Всего токенов</strong>
+          <div class="kpi">1 000 000 000</div>
+          <div class="muted">Фиксированное предложение</div>
+        </div>
+        <div class="card">
+          <strong>Ликвидность</strong>
+          <div class="kpi">50%</div>
+          <div class="muted">Заблокирована на DEX</div>
+        </div>
+        <div class="card">
+          <strong>Команда</strong>
+          <div class="kpi">10%</div>
+          <div class="muted">Вестинг 12 месяцев</div>
         </div>
       </div>
     </section>
@@ -148,9 +115,9 @@
       <div class="container">
         <h2 style="margin:0 0 18px">Дорожная карта</h2>
         <div class="card road">
-          <div class="milestone"><strong>Q4 2025:</strong> Запуск сайта, листинг на DEX, маркетинговая кампания.</div>
-          <div class="milestone"><strong>Q1 2026:</strong> Грантовая программа, интеграции с кошельками, бета-dApp.</div>
-          <div class="milestone"><strong>Q2 2026:</strong> Аудит смарт-контракта, листинг на CEX, DAO-голосования.</div>
+          <div class="milestone"><strong>Q1</strong> — Запуск сайта, социальные сети</div>
+          <div class="milestone"><strong>Q2</strong> — Листинг на DEX, маркетинг</div>
+          <div class="milestone"><strong>Q3</strong> — Новые партнерства, утилиты</div>
         </div>
       </div>
     </section>
@@ -159,16 +126,16 @@
     <section id="howto">
       <div class="container grid grid-3">
         <div class="card">
-          <h3 style="margin-top:0">1) Кошелёк</h3>
-          <p>Установите MetaMask или любой совместимый кошелёк и пополните его <span class="mono">ETH</span>.</p>
+          <h3 style="margin-top:0">1) Установите кошелёк</h3>
+          <p>Подходит MetaMask или любой совместимый кошелёк с поддержкой Ethereum.</p>
         </div>
         <div class="card">
-          <h3 style="margin-top:0">2) Обмен</h3>
-          <p>Перейдите на выбранный DEX, подключите кошелёк и вставьте адрес контракта <span class="mono">$MYCOIN</span>.</p>
+          <h3 style="margin-top:0">2) Пополните баланс</h3>
+          <p>Отправьте немного <span class="mono">ETH</span> для обмена и оплаты газа.</p>
         </div>
         <div class="card">
-          <h3 style="margin-top:0">3) Подтверждение</h3>
-          <p>Укажите количество, подтвердите транзакцию в кошельке и дождитесь майнинга блока.</p>
+          <h3 style="margin-top:0">3) Обменяйте на DEX</h3>
+          <p>Используйте проверенный DEX. Введите адрес контракта $MYCOIN и подтвердите обмен.</p>
         </div>
       </div>
     </section>
@@ -191,7 +158,7 @@
             <p class="muted">Имя Фамилия</p>
           </div>
         </div>
-        <p class="muted" style="margin-top:12px">Добавьте реальные роли и ссылки на профили.</p>
+        <p class="muted" style="margin-top:12px">Мы открыты к сотрудничеству и партнёрствам.</p>
       </div>
     </section>
 
@@ -199,16 +166,16 @@
     <section id="faq">
       <div class="container grid grid-2">
         <details open>
-          <summary>Где смотреть цену и график?</summary>
-          <p>Вставьте виджет графика от вашего трекера/DEX сюда. Например, iframe из Dexscreener/TradingView.</p>
+          <summary>Где смотреть цену и графики?</summary>
+          <p>Проверьте на DEX/агрегаторах. Можно встроить виджеты Dexscreener/TradingView.</p>
         </details>
         <details>
-          <summary>Есть ли аудит смарт-контракта?</summary>
-          <p>Планируем пройти аудит в Q2 2026. Ссылка будет добавлена по готовности.</p>
+          <summary>Когда листинг на CEX?</summary>
+          <p>Планируется по мере роста сообщества и ликвидности. Следите за анонсами.</p>
         </details>
         <details>
           <summary>Как связаться с нами?</summary>
-          <p>Электронная почта: <a href="mailto:team@mycoin.org">team@mycoin.org</a>. Также следите за соцсетями ниже.</p>
+          <p>Пишите на <a href="mailto:team@mycoin.org">team@mycoin.org</a> или в соцсети ниже.</p>
         </details>
       </div>
     </section>
@@ -224,11 +191,11 @@
         <div class="muted">© <span id="year"></span> $MYCOIN. Все права защищены.</div>
       </div>
       <div>
-        <strong>Документы</strong>
+        <strong>Материалы</strong>
         <ul>
           <li><a href="#">Whitepaper (PDF)</a></li>
           <li><a href="#">Litepaper</a></li>
-          <li><a href="#">Аудит (скоро)</a></li>
+          <li><a href="#">Бренд‑кит</a></li>
         </ul>
       </div>
       <div>
@@ -242,10 +209,8 @@
     </div>
   </footer>
 
-  <!-- Скрипты -->
+  <button id="scrollTopBtn" class="scroll-top" aria-label="Прокрутить наверх">↑</button>
   <script src="app.js" defer></script>
-  <!-- Кнопка «вверх» -->
-    <button id="scrollTopBtn" class="scroll-top" aria-label="Подняться наверх">↑</button>
 
 </body>
-</html>
+
