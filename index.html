@@ -13,10 +13,7 @@
   <meta property="og:image" content="/og-image.png" />
   <meta property="og:url" content="https://example.com" />
 
-  <!-- Favicon (замените пути на свои) -->
-  <!-- <link rel="icon" href="/favicon.ico" /> -->
-
-  <!-- Подключение внешнего стиля -->
+  <!-- Стили -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -203,9 +200,6 @@
         <details open>
           <summary>Где смотреть цену и график?</summary>
           <p>Вставьте виджет графика от вашего трекера/DEX сюда. Например, iframe из Dexscreener/TradingView.</p>
-          <!-- Пример-заглушка:
-          <div class="card" style="height:360px; display:grid; place-items:center">График будет здесь</div>
-          -->
         </details>
         <details>
           <summary>Есть ли аудит смарт-контракта?</summary>
@@ -247,65 +241,10 @@
     </div>
   </footer>
 
-  <script>
-    // Год в футере
-    document.getElementById('year').textContent = new Date().getFullYear();
+  <!-- Скрипты -->
+  <script src="app.js" defer></script>
+  <!-- Кнопка «вверх» -->
+    <button id="scrollTopBtn" class="scroll-top" aria-label="Подняться наверх">↑</button>
 
-    // Копирование адреса контракта
-    const copyBtn = document.getElementById('copyBtn');
-    copyBtn?.addEventListener('click', async () => {
-      const text = document.getElementById('contract').textContent.trim();
-      try {
-        await navigator.clipboard.writeText(text);
-        copyBtn.textContent = 'Скопировано!';
-        setTimeout(() => (copyBtn.textContent = 'Копировать'), 1600);
-      } catch (e) {
-        alert('Не удалось скопировать: ' + e);
-      }
-    });
-
-    // Тема (dark/light) с сохранением в localStorage
-    const themeBtn = document.getElementById('themeBtn');
-    const applyTheme = (t) => {
-      if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
-      else document.documentElement.removeAttribute('data-theme');
-    };
-    const stored = localStorage.getItem('theme');
-    if (stored) applyTheme(stored);
-    themeBtn?.addEventListener('click', () => {
-      const current = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
-      const next = current === 'light' ? 'dark' : 'light';
-      applyTheme(next);
-      localStorage.setItem('theme', next);
-    });
-
-    // Плавное, расплывчатое свечение, следующее за курсором (значения читаются из CSS-переменных)
-    (function(){
-      const doc = document.documentElement;
-      let x = window.innerWidth / 2, y = window.innerHeight / 2;
-      let tx = x, ty = y;
-      const lerp = (a,b,t)=>a+(b-a)*t;
-      const setVars = (cx, cy) => {
-        doc.style.setProperty('--lx', cx + 'px');
-        doc.style.setProperty('--ly', cy + 'px');
-      };
-      setVars(x,y);
-
-      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-      function loop(){
-        x = lerp(x, tx, 0.12);
-        y = lerp(y, ty, 0.12);
-        setVars(x,y);
-        requestAnimationFrame(loop);
-      }
-      if (!prefersReduced.matches) {
-        loop();
-        window.addEventListener('mousemove', (e)=>{ tx = e.clientX; ty = e.clientY; }, { passive: true });
-      } else {
-        window.addEventListener('mousemove', (e)=> setVars(e.clientX, e.clientY), { passive: true });
-      }
-      window.addEventListener('resize', ()=>{ if(!prefersReduced.matches){ tx = Math.min(tx, window.innerWidth); ty = Math.min(ty, window.innerHeight);} });
-    })();
-  </script>
 </body>
 </html>
