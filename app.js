@@ -95,3 +95,33 @@ if (scrollBtn) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 }
+// === Генерация звёздного неба ===
+document.addEventListener('DOMContentLoaded', () => {
+  const container = document.getElementById('starry-bg');
+  if (!container) return;
+
+  const STAR_COUNT = 120; // ← хочешь в 2 раза больше — увеличь число
+  const frag = document.createDocumentFragment();
+
+  for (let i = 0; i < STAR_COUNT; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    
+    const size = Math.random() * 3 + 1; // 1–4px
+    const x = Math.random() * 100; // %
+    const y = Math.random() * 100; // %
+    const delay = Math.random() * 6; // разброс анимации
+    const duration = 3 + Math.random() * 4; // разное мерцание
+
+    star.style.width = `${size}px`;
+    star.style.height = `${size}px`;
+    star.style.left = `${x}%`;
+    star.style.top = `${y}%`;
+    star.style.animationDuration = `${duration}s`;
+    star.style.animationDelay = `${delay}s`;
+
+    frag.appendChild(star);
+  }
+
+  container.appendChild(frag);
+});

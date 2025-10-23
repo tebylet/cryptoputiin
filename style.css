@@ -59,6 +59,38 @@ body::before{
 /* контент поверх подсветки */
 header, main, footer { position: relative; z-index: 1 }
 
+/* === ЗВЁЗДНОЕ НЕБО (динамическая версия) === */
+#starry-bg {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.star {
+  position: absolute;
+  background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0.2) 60%, transparent 100%);
+  border-radius: 50%;
+  opacity: 0.8;
+  animation: twinkle 4s infinite ease-in-out alternate;
+}
+
+@keyframes twinkle {
+  0%   { opacity: 0.6; transform: scale(0.9); }
+  50%  { opacity: 1; transform: scale(1.1); filter: brightness(1.4); }
+  100% { opacity: 0.6; transform: scale(1); }
+}
+
+/* В светлой теме — приглушаем */
+[data-theme="light"] #starry-bg .star {
+  opacity: 0.25;
+  filter: brightness(0.7);
+}
+
+
+
+
 /* дополнительные фоновые акценты */
 body {
   background-image:
